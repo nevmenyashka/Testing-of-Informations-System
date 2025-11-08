@@ -1,0 +1,42 @@
+-------------------------------
+bungee.m
+----------------------------
+function dxdt = bungee(t, x, k)
+    m = 60; 
+    g= 10;
+    a = 1;
+    b = 1;
+    P = m*g;
+    R= a*x(2)+b*abs(x(2))*x(2);
+    
+    if x(1) > 0
+        F = k* x(1);
+    else
+        F=0;
+    end
+    
+    dxdt = [x(2);(P-F-R)/m];
+end
+------------------------------------
+bungee_main.m
+-----------------------------------
+figure
+[t,xsol]=ode45(@(t,x) bungee (t,x,5), [0 50], [-30 0]); 
+plot (t,50-xsol (:,1));
+title('k = 5 H/M');
+xlabel('Время (с)'); 
+ylabel('BысOTа (M) ');
+
+figure
+[t, xsol]=ode45(@(t,x) bungee (t,x,26), [0 50], [-30 0]); 
+plot (t,50-xsol(:,1));
+title('k 40 H/M'); 
+xlabel('Время (с) '); 
+ylabel('BысoтTA (M) ');
+
+figure
+[t,xsol]=ode45(@(t,x) bungee (t,x,500), [0 50], [-30 0]);
+plot (t,50-xsol (:,1));
+title('k 500 H/M');
+xlabel('Время (с)'); 
+ylabel('BысOта (M)');
